@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 import authRoutes from "./routes/auth.routes";
 import testRoutes from "./routes/test.routes";
@@ -10,12 +11,25 @@ import sanctionRoutes from "./routes/sanction.routes";
 import disbursementRoutes from "./routes/disbursement.routes";
 import collectionRoutes from "./routes/collection.routes";
 import salesRoutes from "./routes/sales.routes";
+
 const app = express();
+
+app.use(
+  cors({
+    origin:
+      process.env.FRONTEND_URL ||
+      "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("API Running");
+  res.json({
+    success: true,
+    message: "CreditSea Loan Management API",
+  });
 });
 
 app.use("/api/auth", authRoutes);
@@ -24,10 +38,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/borrower", borrowerRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/loans", loanRoutes);
-app.use(
-  "/api/sanction",
-  sanctionRoutes
-);
+app.use("/api/sanction", sanctionRoutes);
 app.use(
   "/api/disbursement",
   disbursementRoutes
@@ -38,5 +49,11 @@ app.use(
 );
 app.use("/api/sales", salesRoutes);
 
+app.use((req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
 
 export default app;

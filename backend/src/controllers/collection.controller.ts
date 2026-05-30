@@ -57,6 +57,7 @@ export const collectPayment = async (
     const {
       amount,
       utrNumber,
+      paymentDate,
     } = validationResult.data;
 
     const loan = await Loan.findById(
@@ -111,6 +112,7 @@ export const collectPayment = async (
         loanId: loan._id,
         amount,
         utrNumber,
+        paymentDate,
       });
 
     loan.amountPaid += amount;

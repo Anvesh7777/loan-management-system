@@ -11,22 +11,13 @@ import {
 
 const router = Router();
 
-router.get(
-  "/dashboard",
+router.use(
   authenticate,
-  authorize(Role.ADMIN),
-  (req, res) => {
-    res.json({
-      success: true,
-      message: "Welcome Admin",
-    });
-  }
+  authorize(Role.ADMIN)
 );
 
 router.get(
   "/stats",
-  authenticate,
-  authorize(Role.ADMIN),
   getAdminStats
 );
 

@@ -21,6 +21,8 @@ export interface ILoan extends Document {
   sanctionedAt?: Date;
   disbursedAt?: Date;
   closedAt?: Date;
+
+  outstandingAmount: number;
 }
 
 const loanSchema = new Schema<ILoan>(
@@ -91,8 +93,16 @@ const loanSchema = new Schema<ILoan>(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+loanSchema.virtual(
+  "outstandingAmount"
+).get(function () {
+  return this.totalRepayment - this.amountPaid;
+});
 
 const Loan = mongoose.model<ILoan>(
   "Loan",

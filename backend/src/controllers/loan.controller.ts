@@ -43,17 +43,23 @@ export const applyLoan = async (
       });
     }
 
-    const existingPendingLoan =
+    const existingActiveLoan =
       await Loan.findOne({
         borrowerId: borrowerProfile._id,
-        status: LoanStatus.PENDING,
+        status: {
+          $in: [
+            LoanStatus.PENDING,
+            LoanStatus.SANCTIONED,
+            LoanStatus.DISBURSED,
+          ],
+        },
       });
 
-    if (existingPendingLoan) {
+    if (existingActiveLoan) {
       return res.status(409).json({
         success: false,
         message:
-          "You already have a pending loan application",
+          "You already have an active loan",
       });
     }
 
@@ -256,11 +262,9 @@ export const getLoanPayments = async (
 
     return res.status(200).json({
       success: true,
-
       outstandingAmount:
         loan.totalRepayment -
         loan.amountPaid,
-
       payments,
     });
   } catch (error: any) {

@@ -13,6 +13,7 @@ export interface IBorrowerProfile extends Document {
   employmentMode: EmploymentMode;
 
   salarySlipUrl?: string;
+  salarySlipPublicId?: string;
   salarySlipUploadedAt?: Date;
 }
 
@@ -58,6 +59,10 @@ const borrowerProfileSchema =
       },
 
       salarySlipUrl: {
+        type: String,
+      },
+
+      salarySlipPublicId: {
         type: String,
       },
 

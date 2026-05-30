@@ -16,7 +16,7 @@ export const getAdminStats = async (
       sanctionedLoans,
       disbursedLoans,
       closedLoans,
-      payments,
+      collectionResult,
     ] = await Promise.all([
       Loan.countDocuments(),
 
@@ -36,15 +36,20 @@ export const getAdminStats = async (
         status: LoanStatus.CLOSED,
       }),
 
-      Payment.find(),
+      Payment.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalAmount: {
+              $sum: "$amount",
+            },
+          },
+        },
+      ]),
     ]);
 
     const totalCollectionAmount =
-      payments.reduce(
-        (sum, payment) =>
-          sum + payment.amount,
-        0
-      );
+      collectionResult[0]?.totalAmount || 0;
 
     return res.status(200).json({
       success: true,

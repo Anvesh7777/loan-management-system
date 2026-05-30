@@ -11,18 +11,24 @@ export const getLeads = async (
     const profiles =
       await BorrowerProfile.find();
 
-    const leads = [];
+    const loanBorrowerIds =
+      await Loan.distinct(
+        "borrowerId"
+      );
 
-    for (const profile of profiles) {
-      const loanExists =
-        await Loan.exists({
-          borrowerId: profile._id,
-        });
+    const loanBorrowerIdSet =
+      new Set(
+        loanBorrowerIds.map((id) =>
+          id.toString()
+        )
+      );
 
-      if (!loanExists) {
-        leads.push(profile);
-      }
-    }
+    const leads = profiles.filter(
+      (profile) =>
+        !loanBorrowerIdSet.has(
+          profile._id.toString()
+        )
+    );
 
     return res.status(200).json({
       success: true,

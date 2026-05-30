@@ -64,6 +64,9 @@ export const uploadSalarySlip = async (
     profile.salarySlipUrl =
       uploadResult.secure_url;
 
+    profile.salarySlipPublicId =
+      uploadResult.public_id;
+
     profile.salarySlipUploadedAt =
       new Date();
 
