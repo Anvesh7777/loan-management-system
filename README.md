@@ -11,8 +11,7 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb)
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
-![Lucide React](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)
+![Illustrations](https://img.shields.io/badge/Illustrations-unDraw-6C63FF?style=for-the-badge)
 
 A production-style Loan Management System built using **Next.js, TypeScript, Node.js, Express.js, MongoDB, Cloudinary, JWT Authentication, and Role-Based Access Control (RBAC)**.
 
