@@ -156,7 +156,29 @@ Cloudinary Storage
 | Admin        | Analytics + Full System Access                     |
 
 ---
+# 🔑 Demo Credentials
 
+The project includes a seed script that creates demo users for all supported roles.
+
+Run the seed script:
+
+```bash
+npm run seed
+```
+
+Use the following credentials to explore different modules:
+
+| Role         | Email                                               | Password     |
+| ------------ | --------------------------------------------------- | ------------ |
+| Admin        | [admin@lms.com](mailto:admin@lms.com)               | Password@123 |
+| Sales        | [sales@lms.com](mailto:sales@lms.com)               | Password@123 |
+| Sanction     | [sanction@lms.com](mailto:sanction@lms.com)         | Password@123 |
+| Disbursement | [disbursement@lms.com](mailto:disbursement@lms.com) | Password@123 |
+| Collection   | [collection@lms.com](mailto:collection@lms.com)     | Password@123 |
+| Borrower     | [borrower@lms.com](mailto:borrower@lms.com)         | Password@123 |
+
+> The seed script automatically creates demo users for all supported roles if they do not already exist.
+---
 # 🛠️ Tech Stack
 
 ## Frontend
