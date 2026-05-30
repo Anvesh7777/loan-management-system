@@ -10,6 +10,7 @@
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb)
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary)
+![unDraw](https://img.shields.io/badge/unDraw-6C63FF?style=for-the-badge&logo=undraw&logoColor=white)
 
 A production-style Loan Management System built using **Next.js, TypeScript, Node.js, Express.js, MongoDB, Cloudinary, JWT Authentication, and Role-Based Access Control (RBAC)**.
 
