@@ -378,19 +378,6 @@ Uploaded salary slips are stored on Cloudinary and linked to borrower profiles.
 
 ---
 
-# 📸 Screenshots
-
-Add screenshots of:
-
-* Login Page
-* Borrower Dashboard
-* Sales Dashboard
-* Admin Dashboard
-* Loan Pipeline
-* Collection Dashboard
-
----
-
 # ⭐ Project Status
 
 ## Version 1.1
