@@ -105,12 +105,36 @@ export default function DashboardLayout({
   ];
 
   const adminLinks = [
-    {
-      href: "/admin",
-      label: "Analytics",
-      icon: BarChart3,
-    },
-  ];
+  {
+    href: "/admin",
+    label: "Analytics",
+    icon: BarChart3,
+  },
+
+  {
+    href: "/admin/sales",
+    label: "Sales",
+    icon: User,
+  },
+
+  {
+    href: "/admin/sanction",
+    label: "Sanction",
+    icon: ShieldCheck,
+  },
+
+  {
+    href: "/admin/disbursement",
+    label: "Disbursement",
+    icon: Landmark,
+  },
+
+  {
+    href: "/admin/collection",
+    label: "Collection",
+    icon: CreditCard,
+  },
+];
 
   let links =
     borrowerLinks;

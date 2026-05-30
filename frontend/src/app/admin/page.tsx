@@ -1,7 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import StatCard from "@/components/common/StatCard";
@@ -42,6 +51,39 @@ export default function AdminPage() {
     );
   }
 
+  const chartData = [
+    {
+      name: "Pending",
+      value: stats.pendingLoans,
+    },
+    {
+      name: "Sanctioned",
+      value:
+        stats.sanctionedLoans,
+    },
+    {
+      name: "Disbursed",
+      value:
+        stats.disbursedLoans,
+    },
+    {
+      name: "Closed",
+      value:
+        stats.closedLoans,
+    },
+  ];
+
+  const approvalRate =
+    stats.totalLoans > 0
+      ? (
+          ((stats.sanctionedLoans +
+            stats.disbursedLoans +
+            stats.closedLoans) /
+            stats.totalLoans) *
+          100
+        ).toFixed(1)
+      : 0;
+
   return (
     <DashboardLayout title="Admin Dashboard">
       <motion.div
@@ -56,14 +98,13 @@ export default function AdminPage() {
         className="mb-8"
       >
         <h2 className="text-3xl font-bold">
-          Platform Overview
+          Control Center
         </h2>
 
         <p className="mt-2 text-zinc-400">
-          Monitor loans,
-          collections and
-          overall platform
-          performance.
+          Monitor platform
+          performance and
+          manage all modules.
         </p>
       </motion.div>
 
@@ -76,16 +117,9 @@ export default function AdminPage() {
         />
 
         <StatCard
-          title="Pending Loans"
+          title="Pending"
           value={
             stats.pendingLoans
-          }
-        />
-
-        <StatCard
-          title="Sanctioned"
-          value={
-            stats.sanctionedLoans
           }
         />
 
@@ -97,10 +131,15 @@ export default function AdminPage() {
         />
 
         <StatCard
-          title="Closed Loans"
+          title="Closed"
           value={
             stats.closedLoans
           }
+        />
+
+        <StatCard
+          title="Approval Rate"
+          value={`${approvalRate}%`}
         />
 
         <StatCard
@@ -109,69 +148,152 @@ export default function AdminPage() {
         />
       </div>
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 20,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          delay: 0.2,
-        }}
-        className="
-          mt-8
-          rounded-3xl
-          border
-          border-white/10
-          bg-white/5
-          backdrop-blur-md
-          p-6
-        "
-      >
-        <h3 className="text-xl font-bold">
-          Executive Summary
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          className="
+            rounded-3xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-6
+          "
+        >
+          <h3 className="mb-4 text-xl font-bold">
+            Loan Status Distribution
+          </h3>
+
+          <div className="h-80">
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  dataKey="value"
+                  outerRadius={110}
+                >
+                  <Cell fill="#3B82F6" />
+                  <Cell fill="#F59E0B" />
+                  <Cell fill="#8B5CF6" />
+                  <Cell fill="#10B981" />
+                </Pie>
+
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            delay: 0.1,
+          }}
+          className="
+            rounded-3xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-6
+          "
+        >
+          <h3 className="mb-6 text-xl font-bold">
+            Loan Lifecycle Funnel
+          </h3>
+
+          <div className="space-y-4">
+            <div className="rounded-xl bg-blue-500/20 p-4">
+              Pending
+              <span className="float-right font-bold">
+                {
+                  stats.pendingLoans
+                }
+              </span>
+            </div>
+
+            <div className="rounded-xl bg-yellow-500/20 p-4">
+              Sanctioned
+              <span className="float-right font-bold">
+                {
+                  stats.sanctionedLoans
+                }
+              </span>
+            </div>
+
+            <div className="rounded-xl bg-purple-500/20 p-4">
+              Disbursed
+              <span className="float-right font-bold">
+                {
+                  stats.disbursedLoans
+                }
+              </span>
+            </div>
+
+            <div className="rounded-xl bg-green-500/20 p-4">
+              Closed
+              <span className="float-right font-bold">
+                {
+                  stats.closedLoans
+                }
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="mt-8">
+        <h3 className="mb-4 text-xl font-bold">
+          Quick Access
         </h3>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <div>
-            <p className="text-sm text-zinc-400">
-              Total Portfolio
-            </p>
+        <div className="grid gap-4 md:grid-cols-4">
+          <Link
+            href="/admin/sales"
+            className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10"
+          >
+            Sales Module
+          </Link>
 
-            <p className="mt-2 text-2xl font-bold">
-              {
-                stats.totalLoans
-              }
-            </p>
-          </div>
+          <Link
+            href="/admin/sanction"
+            className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10"
+          >
+            Sanction Module
+          </Link>
 
-          <div>
-            <p className="text-sm text-zinc-400">
-              Active Loans
-            </p>
+          <Link
+            href="/admin/disbursement"
+            className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10"
+          >
+            Disbursement Module
+          </Link>
 
-            <p className="mt-2 text-2xl font-bold">
-              {stats.pendingLoans +
-                stats.sanctionedLoans +
-                stats.disbursedLoans}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-zinc-400">
-              Total Collection
-            </p>
-
-            <p className="mt-2 text-2xl font-bold text-green-400">
-              ₹
-              {stats.totalCollectionAmount.toLocaleString()}
-            </p>
-          </div>
+          <Link
+            href="/admin/collection"
+            className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10"
+          >
+            Collection Module
+          </Link>
         </div>
-      </motion.div>
+      </div>
     </DashboardLayout>
   );
 }

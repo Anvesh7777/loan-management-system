@@ -3,9 +3,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import DisbursementModule from "@/components/modules/DisbursementModule";
 
-export default function DisbursementPage() {
+export default function AdminDisbursementPage() {
   return (
-    <DashboardLayout title="Disbursement Dashboard">
+    <DashboardLayout title="Admin • Disbursement">
       <DisbursementModule />
     </DashboardLayout>
   );

@@ -3,9 +3,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import SalesModule from "@/components/modules/SalesModule";
 
-export default function SalesPage() {
+export default function AdminSalesPage() {
   return (
-    <DashboardLayout title="Sales Dashboard">
+    <DashboardLayout title="Admin • Sales">
       <SalesModule />
     </DashboardLayout>
   );

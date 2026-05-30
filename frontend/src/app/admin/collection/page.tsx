@@ -3,9 +3,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import CollectionModule from "@/components/modules/CollectionModule";
 
-export default function CollectionPage() {
+export default function AdminCollectionPage() {
   return (
-    <DashboardLayout title="Collection Dashboard">
+    <DashboardLayout title="Admin • Collection">
       <CollectionModule />
     </DashboardLayout>
   );
