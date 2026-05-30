@@ -14,7 +14,7 @@ const router = Router();
 
 router.use(
   authenticate,
-  authorize(Role.COLLECTION)
+  authorize(Role.COLLECTION, Role.ADMIN)
 );
 
 router.get(

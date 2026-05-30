@@ -15,7 +15,7 @@ const router = Router();
 
 router.use(
   authenticate,
-  authorize(Role.SANCTION)
+  authorize(Role.SANCTION, Role.ADMIN)
 );
 
 router.get(

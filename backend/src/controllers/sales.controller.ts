@@ -11,24 +11,48 @@ export const getLeads = async (
     const profiles =
       await BorrowerProfile.find();
 
-    const loanBorrowerIds =
-      await Loan.distinct(
-        "borrowerId"
-      );
+    const leads =
+      await Promise.all(
+        profiles.map(
+          async (profile) => {
+            const latestLoan =
+              await Loan.findOne({
+                borrowerId:
+                  profile._id,
+              }).sort({
+                createdAt: -1,
+              });
 
-    const loanBorrowerIdSet =
-      new Set(
-        loanBorrowerIds.map((id) =>
-          id.toString()
+            return {
+              ...profile.toObject(),
+
+              loanStatus:
+                latestLoan?.status ||
+                "NO_APPLICATION",
+
+              loanAmount:
+                latestLoan
+                  ?.loanAmount ||
+                null,
+
+              tenureDays:
+                latestLoan
+                  ?.tenureDays ||
+                null,
+
+              totalRepayment:
+                latestLoan
+                  ?.totalRepayment ||
+                null,
+
+              amountPaid:
+                latestLoan
+                  ?.amountPaid ||
+                0,
+            };
+          }
         )
       );
-
-    const leads = profiles.filter(
-      (profile) =>
-        !loanBorrowerIdSet.has(
-          profile._id.toString()
-        )
-    );
 
     return res.status(200).json({
       success: true,

@@ -14,7 +14,7 @@ const router = Router();
 router.get(
   "/leads",
   authenticate,
-  authorize(Role.SALES),
+  authorize(Role.SALES, Role.ADMIN),
   getLeads
 );
 
