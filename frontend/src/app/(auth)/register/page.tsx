@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +20,8 @@ import { getRoleRoute } from "@/lib/role-redirect";
 export default function RegisterPage() {
   const router = useRouter();
 
-  const { setAuth } = useAuthStore();
+  const { setAuth } =
+    useAuthStore();
 
   const [loading, setLoading] =
     useState(false);
@@ -30,7 +32,9 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver:
-      zodResolver(registerSchema),
+      zodResolver(
+        registerSchema
+      ),
   });
 
   const onSubmit = async (
@@ -57,7 +61,8 @@ export default function RegisterPage() {
       );
     } catch (error: any) {
       alert(
-        error?.response?.data?.message ||
+        error?.response?.data
+          ?.message ||
           "Registration failed"
       );
     } finally {
@@ -66,89 +71,113 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-3xl border border-border/50 bg-card/50 p-8 backdrop-blur">
-      <h1 className="mb-2 text-3xl font-bold">
-        Create Account
-      </h1>
+    <div className="grid min-h-[80vh] items-center gap-12 lg:grid-cols-2">
+      <div className="hidden lg:flex justify-center">
+        <Image
+          src="/illustrations/security.svg"
+          alt="Security"
+          width={500}
+          height={500}
+          className="w-full max-w-lg"
+        />
+      </div>
 
-      <p className="mb-8 text-muted-foreground">
-        Start your loan journey
-      </p>
+      <div className="mx-auto w-full max-w-md rounded-3xl border border-border/50 bg-card/50 p-8 backdrop-blur">
+        <h1 className="mb-2 text-3xl font-bold">
+          Create Account
+        </h1>
 
-      <form
-        onSubmit={handleSubmit(
-          onSubmit
-        )}
-        className="space-y-4"
-      >
-        <div>
-          <label className="mb-2 block text-sm">
-            Name
-          </label>
+        <p className="mb-8 text-muted-foreground">
+          Start your loan journey
+        </p>
 
-          <input
-            {...register("name")}
-            className="w-full rounded-xl border bg-background px-4 py-3"
-            placeholder="Enter name"
-          />
-
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.name.message}
-            </p>
+        <form
+          onSubmit={handleSubmit(
+            onSubmit
           )}
-        </div>
-
-        <div>
-          <label className="mb-2 block text-sm">
-            Email
-          </label>
-
-          <input
-            {...register("email")}
-            className="w-full rounded-xl border bg-background px-4 py-3"
-            placeholder="Enter email"
-          />
-
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label className="mb-2 block text-sm">
-            Password
-          </label>
-
-          <input
-            type="password"
-            {...register("password")}
-            className="w-full rounded-xl border bg-background px-4 py-3"
-            placeholder="Enter password"
-          />
-
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-500">
-              {
-                errors.password
-                  .message
-              }
-            </p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-xl bg-primary py-3 font-medium text-primary-foreground disabled:opacity-50"
+          className="space-y-4"
         >
-          {loading
-            ? "Creating Account..."
-            : "Create Account"}
-        </button>
-      </form>
+          <div>
+            <label className="mb-2 block text-sm">
+              Name
+            </label>
+
+            <input
+              {...register(
+                "name"
+              )}
+              className="w-full rounded-xl border bg-background px-4 py-3"
+              placeholder="Enter name"
+            />
+
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-500">
+                {
+                  errors.name
+                    .message
+                }
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm">
+              Email
+            </label>
+
+            <input
+              {...register(
+                "email"
+              )}
+              className="w-full rounded-xl border bg-background px-4 py-3"
+              placeholder="Enter email"
+            />
+
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-500">
+                {
+                  errors.email
+                    .message
+                }
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm">
+              Password
+            </label>
+
+            <input
+              type="password"
+              {...register(
+                "password"
+              )}
+              className="w-full rounded-xl border bg-background px-4 py-3"
+              placeholder="Enter password"
+            />
+
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">
+                {
+                  errors.password
+                    .message
+                }
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-primary py-3 font-medium text-primary-foreground disabled:opacity-50"
+          >
+            {loading
+              ? "Creating Account..."
+              : "Create Account"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

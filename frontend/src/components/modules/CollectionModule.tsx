@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import StatCard from "@/components/common/StatCard";
 
 
 
@@ -36,6 +37,40 @@ export default function CollectionModule() {
   useEffect(() => {
     fetchLoans();
   }, []);
+
+  const stats = {
+  activeCollections: loans.length,
+
+  totalOutstanding: loans.reduce(
+    (sum, loan) =>
+      sum +
+      (loan.totalRepayment -
+        loan.amountPaid),
+    0
+  ),
+
+  totalCollected: loans.reduce(
+    (sum, loan) =>
+      sum + loan.amountPaid,
+    0
+  ),
+
+  totalRepayment: loans.reduce(
+    (sum, loan) =>
+      sum +
+      loan.totalRepayment,
+    0
+  ),
+};
+
+const recoveryPercentage =
+  stats.totalRepayment > 0
+    ? (
+        (stats.totalCollected /
+          stats.totalRepayment) *
+        100
+      ).toFixed(1)
+    : "0";
 
   const handlePayment =
     async (
@@ -98,6 +133,30 @@ export default function CollectionModule() {
           manage outstanding
           balances.
         </p>
+
+        <div className="mb-8 mt-8 grid gap-4 md:grid-cols-4">
+  <StatCard
+    title="Active Collections"
+    value={
+      stats.activeCollections
+    }
+  />
+
+  <StatCard
+    title="Outstanding"
+    value={`₹${stats.totalOutstanding.toLocaleString()}`}
+  />
+
+  <StatCard
+    title="Collected"
+    value={`₹${stats.totalCollected.toLocaleString()}`}
+  />
+
+  <StatCard
+    title="Recovery %"
+    value={`${recoveryPercentage}%`}
+  />
+</div>
       </motion.div>
 
       {loading ? (

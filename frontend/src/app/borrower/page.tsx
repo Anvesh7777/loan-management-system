@@ -10,6 +10,7 @@ import RoleGuard from "@/components/common/RoleGuard";
 import { Role } from "@/types";
 import StatCard from "@/components/common/StatCard";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface DashboardData {
   profileCompleted: boolean;
@@ -310,7 +311,38 @@ export default function BorrowerPage() {
             </p>
           )}
         </motion.div>
-      </div>
+         </div>
+         <div
+  className="
+    mt-8
+    rounded-3xl
+    border
+    border-white/10
+    bg-white/5
+    backdrop-blur-md
+    p-6
+  "
+>
+  <h2 className="text-xl font-bold">
+    Loan Journey
+  </h2>
+
+  <p className="mt-2 text-zinc-400">
+    Track your complete loan
+    lifecycle from onboarding
+    to repayment and closure.
+  </p>
+
+  <div className="mt-6 flex justify-center">
+    <Image
+      src="/illustrations/workflow.svg"
+      alt="Loan Workflow"
+      width={700}
+      height={350}
+      className="max-w-full"
+    />
+  </div>
+</div>
     </DashboardLayout>
   </RoleGuard>
 );

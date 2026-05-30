@@ -26,20 +26,46 @@ export default function StatCard({
         y: -4,
       }}
       className="
+        group
+        relative
+        overflow-hidden
         rounded-3xl
         border
         border-white/10
         bg-white/5
-        backdrop-blur-md
         p-6
+        backdrop-blur-md
         shadow-xl
       "
     >
-      <p className="text-sm text-zinc-400">
+      <div
+        className="
+          absolute
+          inset-0
+          bg-gradient-to-br
+          from-blue-500/10
+          via-transparent
+          to-purple-500/10
+          opacity-0
+          transition-opacity
+          duration-300
+          group-hover:opacity-100
+        "
+      />
+
+      <p className="relative text-sm text-zinc-400">
         {title}
       </p>
 
-      <h2 className="mt-3 text-3xl font-bold">
+      <h2
+        className="
+          relative
+          mt-3
+          text-3xl
+          font-bold
+          text-white
+        "
+      >
         {value}
       </h2>
     </motion.div>

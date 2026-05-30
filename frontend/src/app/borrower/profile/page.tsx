@@ -21,15 +21,15 @@ export default function ProfilePage() {
   const [loading, setLoading] =
     useState(false);
 
- const {
-  register,
-  handleSubmit,
-  formState: { errors },
-} = useForm({
-  resolver: zodResolver(
-    borrowerProfileSchema
-  ),
-});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(
+      borrowerProfileSchema
+    ),
+  });
 
   const onSubmit = async (
     data: BorrowerProfileFormData
@@ -60,15 +60,43 @@ export default function ProfilePage() {
 
   return (
     <DashboardLayout title="Create Profile">
-      <div className="max-w-2xl rounded-2xl border p-6">
+      <div
+        className="
+          max-w-4xl
+          rounded-3xl
+          border
+          border-white/10
+          bg-white/5
+          p-8
+          backdrop-blur-md
+        "
+      >
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold">
+            Personal Information
+          </h2>
+
+          <p className="mt-2 text-zinc-400">
+            Complete your profile to
+            proceed with loan
+            eligibility verification.
+          </p>
+        </div>
+
         <form
           onSubmit={handleSubmit(
             onSubmit
           )}
-          className="space-y-4"
+          className="space-y-6"
         >
           <div>
-            <label>
+            <h3 className="mb-4 text-lg font-semibold">
+              Personal Details
+            </h3>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">
               Full Name
             </label>
 
@@ -76,39 +104,61 @@ export default function ProfilePage() {
               {...register(
                 "fullName"
               )}
-              className="mt-2 w-full rounded-lg border p-3"
+              placeholder="Enter your full name"
+              className="
+                mt-2
+                w-full
+                rounded-xl
+                border
+                border-white/10
+                bg-white/5
+                p-3
+                outline-none
+              "
             />
 
             {errors.fullName && (
-              <p className="text-sm text-red-500">
+              <p className="mt-1 text-sm text-red-500">
                 {
                   errors.fullName
-                    .message
+                    .message as string
                 }
               </p>
             )}
           </div>
 
           <div>
-            <label>PAN</label>
+            <label className="block text-sm font-medium">
+              PAN Number
+            </label>
 
             <input
               {...register("pan")}
-              className="mt-2 w-full rounded-lg border p-3"
+              placeholder="ABCDE1234F"
+              className="
+                mt-2
+                w-full
+                rounded-xl
+                border
+                border-white/10
+                bg-white/5
+                p-3
+                outline-none
+              "
             />
 
             {errors.pan && (
-              <p className="text-sm text-red-500">
+              <p className="mt-1 text-sm text-red-500">
                 {
                   errors.pan
-                    .message
+                    .message as string
                 }
               </p>
             )}
           </div>
 
           <div>
-            <label>
+            <label className="block text-sm font-medium">
               Date Of Birth
             </label>
 
@@ -117,12 +167,27 @@ export default function ProfilePage() {
               {...register(
                 "dateOfBirth"
               )}
-              className="mt-2 w-full rounded-lg border p-3"
+              className="
+                mt-2
+                w-full
+                rounded-xl
+                border
+                border-white/10
+                bg-white/5
+                p-3
+                outline-none
+              "
             />
           </div>
 
+          <div className="pt-4">
+            <h3 className="mb-4 text-lg font-semibold">
+              Eligibility Information
+            </h3>
+          </div>
+
           <div>
-            <label>
+            <label className="block text-sm font-medium">
               Monthly Salary
             </label>
 
@@ -131,22 +196,32 @@ export default function ProfilePage() {
               {...register(
                 "monthlySalary"
               )}
-              className="mt-2 w-full rounded-lg border p-3"
+              placeholder="25000"
+              className="
+                mt-2
+                w-full
+                rounded-xl
+                border
+                border-white/10
+                bg-white/5
+                p-3
+                outline-none
+              "
             />
 
             {errors.monthlySalary && (
-              <p className="text-sm text-red-500">
+              <p className="mt-1 text-sm text-red-500">
                 {
                   errors
                     .monthlySalary
-                    .message
+                    .message as string
                 }
               </p>
             )}
           </div>
 
           <div>
-            <label>
+            <label className="block text-sm font-medium">
               Employment Mode
             </label>
 
@@ -154,33 +229,75 @@ export default function ProfilePage() {
               {...register(
                 "employmentMode"
               )}
-              className="mt-2 w-full rounded-lg border p-3"
+              className="
+                mt-2
+                w-full
+                rounded-xl
+                border
+                border-white/10
+                bg-zinc-900
+                p-3
+                text-white
+                outline-none
+              "
             >
-              <option value="">
-                Select
+              <option
+                value=""
+                className="bg-zinc-900 text-white"
+              >
+                Select Employment Type
               </option>
 
-              <option value="SALARIED">
+              <option
+                value="SALARIED"
+                className="bg-zinc-900 text-white"
+              >
                 Salaried
               </option>
 
-              <option value="SELF_EMPLOYED">
+              <option
+                value="SELF_EMPLOYED"
+                className="bg-zinc-900 text-white"
+              >
                 Self Employed
               </option>
 
-              <option value="UNEMPLOYED">
+              <option
+                value="UNEMPLOYED"
+                className="bg-zinc-900 text-white"
+              >
                 Unemployed
               </option>
             </select>
+
+            {errors.employmentMode && (
+              <p className="mt-1 text-sm text-red-500">
+                {
+                  errors
+                    .employmentMode
+                    .message as string
+                }
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="rounded-lg bg-primary px-6 py-3 text-primary-foreground"
+            className="
+              w-full
+              rounded-xl
+              bg-primary
+              py-3
+              font-medium
+              text-primary-foreground
+              transition
+              hover:opacity-90
+              disabled:opacity-50
+            "
           >
             {loading
-              ? "Creating..."
+              ? "Creating Profile..."
               : "Create Profile"}
           </button>
         </form>
