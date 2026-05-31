@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-
-
 import {
   getPendingLoans,
   approveLoan,
@@ -90,8 +88,41 @@ export default function SanctionModule() {
       }
     };
 
+  const pendingLoans =
+    loans.length;
+
+  const totalLoanAmount =
+    loans.reduce(
+      (
+        sum,
+        loan
+      ) =>
+        sum +
+        (loan.loanAmount ||
+          0),
+      0
+    );
+
+  const avgLoanAmount =
+    pendingLoans > 0
+      ? totalLoanAmount /
+        pendingLoans
+      : 0;
+
+  const totalRepayment =
+    loans.reduce(
+      (
+        sum,
+        loan
+      ) =>
+        sum +
+        (loan.totalRepayment ||
+          0),
+      0
+    );
+
   return (
-   <>
+    <>
       <motion.div
         initial={{
           opacity: 0,
@@ -113,6 +144,91 @@ export default function SanctionModule() {
         </p>
       </motion.div>
 
+      {!loading && (
+        <div className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Pending Loans
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              {pendingLoans}
+            </h3>
+          </div>
+
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Total Loan Amount
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              ₹
+              {totalLoanAmount.toLocaleString()}
+            </h3>
+          </div>
+
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Average Loan Amount
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              ₹
+              {Math.round(
+                avgLoanAmount
+              ).toLocaleString()}
+            </h3>
+          </div>
+
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Total Repayment
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              ₹
+              {totalRepayment.toLocaleString()}
+            </h3>
+          </div>
+        </div>
+      )}
+
       {loading ? (
         <div className="flex h-[50vh] items-center justify-center">
           <p className="text-zinc-400">
@@ -122,15 +238,23 @@ export default function SanctionModule() {
       ) : loans.length === 0 ? (
         <div
           className="
-          rounded-3xl
-          border
-          border-white/10
-          bg-white/5
-          backdrop-blur-md
-          p-6
-        "
+            rounded-3xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-8
+            text-center
+          "
         >
-          No Pending Loans
+          <h3 className="text-xl font-semibold">
+            No Pending Loans 
+          </h3>
+
+          <p className="mt-2 text-zinc-400">
+            All loan applications
+            have been reviewed.
+          </p>
         </div>
       ) : (
         <div className="space-y-6">
@@ -157,13 +281,13 @@ export default function SanctionModule() {
                   scale: 1.01,
                 }}
                 className="
-                rounded-3xl
-                border
-                border-white/10
-                bg-white/5
-                backdrop-blur-md
-                p-6
-              "
+                  rounded-3xl
+                  border
+                  border-white/10
+                  bg-white/5
+                  backdrop-blur-md
+                  p-6
+                "
               >
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
@@ -178,14 +302,14 @@ export default function SanctionModule() {
 
                       <span
                         className="
-                        rounded-full
-                        bg-yellow-500/20
-                        px-3
-                        py-1
-                        text-xs
-                        font-semibold
-                        text-yellow-400
-                      "
+                          rounded-full
+                          bg-yellow-500/20
+                          px-3
+                          py-1
+                          text-xs
+                          font-semibold
+                          text-yellow-400
+                        "
                       >
                         PENDING
                       </span>
@@ -305,6 +429,6 @@ export default function SanctionModule() {
           )}
         </div>
       )}
-   </>
+    </>
   );
 }

@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-
-
 import {
   getSanctionedLoans,
   disburseLoan,
@@ -41,6 +39,13 @@ export default function DisbursementModule() {
     async (
       loanId: string
     ) => {
+      const confirmed =
+        window.confirm(
+          "Are you sure you want to disburse this loan?"
+        );
+
+      if (!confirmed) return;
+
       try {
         await disburseLoan(
           loanId
@@ -60,8 +65,41 @@ export default function DisbursementModule() {
       }
     };
 
+  const sanctionedLoans =
+    loans.length;
+
+  const totalDisbursement =
+    loans.reduce(
+      (
+        sum,
+        loan
+      ) =>
+        sum +
+        (loan.loanAmount ||
+          0),
+      0
+    );
+
+  const avgLoanAmount =
+    sanctionedLoans > 0
+      ? totalDisbursement /
+        sanctionedLoans
+      : 0;
+
+  const totalRepayment =
+    loans.reduce(
+      (
+        sum,
+        loan
+      ) =>
+        sum +
+        (loan.totalRepayment ||
+          0),
+      0
+    );
+
   return (
-   <>
+    <>
       <motion.div
         initial={{
           opacity: 0,
@@ -83,6 +121,91 @@ export default function DisbursementModule() {
         </p>
       </motion.div>
 
+      {!loading && (
+        <div className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Sanctioned Loans
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              {sanctionedLoans}
+            </h3>
+          </div>
+
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Total Disbursement
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              ₹
+              {totalDisbursement.toLocaleString()}
+            </h3>
+          </div>
+
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Average Loan Amount
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              ₹
+              {Math.round(
+                avgLoanAmount
+              ).toLocaleString()}
+            </h3>
+          </div>
+
+          <div
+            className="
+              rounded-3xl
+              border
+              border-white/10
+              bg-white/5
+              backdrop-blur-md
+              p-6
+            "
+          >
+            <p className="text-sm text-zinc-400">
+              Total Repayment
+            </p>
+
+            <h3 className="mt-2 text-3xl font-bold">
+              ₹
+              {totalRepayment.toLocaleString()}
+            </h3>
+          </div>
+        </div>
+      )}
+
       {loading ? (
         <div className="flex h-[50vh] items-center justify-center">
           <p className="text-zinc-400">
@@ -92,15 +215,24 @@ export default function DisbursementModule() {
       ) : loans.length === 0 ? (
         <div
           className="
-          rounded-3xl
-          border
-          border-white/10
-          bg-white/5
-          backdrop-blur-md
-          p-6
-        "
+            rounded-3xl
+            border
+            border-white/10
+            bg-white/5
+            backdrop-blur-md
+            p-8
+            text-center
+          "
         >
-          No Sanctioned Loans
+          <h3 className="text-xl font-semibold">
+            No Sanctioned Loans 
+          </h3>
+
+          <p className="mt-2 text-zinc-400">
+            There are currently no
+            loans waiting for
+            disbursement.
+          </p>
         </div>
       ) : (
         <div className="space-y-6">
@@ -127,13 +259,13 @@ export default function DisbursementModule() {
                   scale: 1.01,
                 }}
                 className="
-                rounded-3xl
-                border
-                border-white/10
-                bg-white/5
-                backdrop-blur-md
-                p-6
-              "
+                  rounded-3xl
+                  border
+                  border-white/10
+                  bg-white/5
+                  backdrop-blur-md
+                  p-6
+                "
               >
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
@@ -148,20 +280,49 @@ export default function DisbursementModule() {
 
                       <span
                         className="
-                        rounded-full
-                        bg-green-500/20
-                        px-3
-                        py-1
-                        text-xs
-                        font-semibold
-                        text-green-400
-                      "
+                          rounded-full
+                          bg-green-500/20
+                          px-3
+                          py-1
+                          text-xs
+                          font-semibold
+                          text-green-400
+                        "
                       >
                         SANCTIONED
                       </span>
                     </div>
 
                     <div className="mt-5 grid gap-4 md:grid-cols-3">
+                      <div>
+                        <p className="text-sm text-zinc-400">
+                          PAN
+                        </p>
+
+                        <p>
+                          {
+                            loan
+                              .borrowerId
+                              ?.pan
+                          }
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-sm text-zinc-400">
+                          Monthly Salary
+                        </p>
+
+                        <p>
+                          ₹
+                          {
+                            loan
+                              .borrowerId
+                              ?.monthlySalary
+                          }
+                        </p>
+                      </div>
+
                       <div>
                         <p className="text-sm text-zinc-400">
                           Amount
@@ -206,15 +367,15 @@ export default function DisbursementModule() {
                       )
                     }
                     className="
-                    rounded-xl
-                    bg-blue-600
-                    px-6
-                    py-3
-                    font-medium
-                    text-white
-                    transition-all
-                    hover:bg-blue-500
-                  "
+                      rounded-xl
+                      bg-blue-600
+                      px-6
+                      py-3
+                      font-medium
+                      text-white
+                      transition-all
+                      hover:bg-blue-500
+                    "
                   >
                     Disburse Loan
                   </button>
