@@ -18,7 +18,17 @@ A production-style Loan Management System built using **Next.js, TypeScript, Nod
 The platform simulates the complete lifecycle of a loan — from borrower onboarding and document verification to sanction, disbursement, repayment collection, and loan closure.
 
 </div>
+🎥 Demo Video
 
+https://youtu.be/nH7QvSiSao8
+
+🚀 Live Demo
+
+https://loan-management-system-five-iota.vercel.app/
+
+📄 Resume
+
+https://drive.google.com/file/d/1dFa81JmgRzgTHALjbulS-aTaVn-tMDjh/view?usp=drive_link
 ---
 
 # 🎯 Project Overview
