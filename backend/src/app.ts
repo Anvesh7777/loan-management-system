@@ -12,6 +12,11 @@ import disbursementRoutes from "./routes/disbursement.routes";
 import collectionRoutes from "./routes/collection.routes";
 import salesRoutes from "./routes/sales.routes";
 
+import {
+  authLimiter,
+  apiLimiter,
+} from "./middleware/rateLimit.middleware";
+
 const app = express();
 
 app.use(
@@ -24,6 +29,9 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use("/api/auth", authLimiter);
+app.use("/api", apiLimiter);
 
 app.get("/", (req, res) => {
   res.json({
